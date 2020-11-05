@@ -36,10 +36,10 @@ SELECT ST_Area(ST_Buffer(ST_ShortestLine(
 	(SELECT geom FROM airports WHERE name LIKE 'AMBLER')), 1000));
 
 -- zad. 7
-SELECT j.vegdesc, sum(j.sumTundra) FROM
- (SELECT vegdesc, SUM(trees.area_km2) AS sumTundra FROM trees JOIN tundra ON ST_Contains(tundra.geom, trees.geom) GROUP BY vegdesc
+SELECT j.vegdesc, sum(j.sum) FROM
+ (SELECT vegdesc, SUM(trees.area_km2) FROM trees JOIN tundra ON ST_Contains(tundra.geom, trees.geom) GROUP BY vegdesc
  UNION ALL
- SELECT vegdesc, SUM(trees.area_km2) AS sumSwamp FROM trees JOIN swamp ON ST_Contains(swamp.geom, trees.geom) GROUP BY vegdesc) AS j
+ SELECT vegdesc, SUM(trees.area_km2) FROM trees JOIN swamp ON ST_Contains(swamp.geom, trees.geom) GROUP BY vegdesc) AS j
 GROUP BY j.vegdesc;
 
 
