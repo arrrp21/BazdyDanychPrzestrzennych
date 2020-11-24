@@ -1,0 +1,18 @@
+CREATE DATABASE cw7;
+CREATE EXTENSION postgis_raster;
+
+Cały katalog z postgresem trzeba mieć w zmiennej środowiskowej PATH (dla Windows)
+cmd:
+pg_restore -U postgres -d cw7 postgis_raster.backup
+
+\c cw7
+
+Ładowanie rastrów z cmd
+raster2pgsql -s 3763 -N -32767 -t 100x100 -I -C -M -d srtm_1arc_v3.tif rasters.dem > dem.sql
+raster2pgsql -s 3763 -N -32767 -t 100x100 -I -C -M -d srtm_1arc_v3.tif rasters.dem | psql -d cw7 -U postgres
+raster2pgsql -s 3763 -N -32767 -t 128x128 -I -C -M -d Landsat8_L1TP_RGBN.TIF rasters.landsat8 | psql -d cw7 -U postgres
+
+na końcu
+ALTER SCHEMA schema_name RENAME to pawelek;
+
+
